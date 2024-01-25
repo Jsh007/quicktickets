@@ -3,8 +3,8 @@
  * @Github: https://github.com/jsh007
  * @Date: 2024-01-09 14:25:29
  * @LastEditors: Joshua Eigbe self@joshuaeigbe.com
- * @LastEditTime: 2024-01-23 16:12:39
- * @FilePath: /mern_frontend_app2/src/features/auth/Welcome.jsx
+ * @LastEditTime: 2024-01-25 00:06:31
+ * @FilePath: /quicktickets_frontend/src/features/auth/Welcome.jsx
  * @copyrightText: Copyright (c) Joshua Eigbe. All Rights Reserved.
  * @Description: See Github repo
  */
@@ -13,8 +13,11 @@ import { selectCurrentToken } from "./authSlice";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import useAuth from "../../hooks/useAuth";
 
 const Welcome = () => {
+  const { username, isAdmin, isManager } = useAuth();
+
   const navigate = useNavigate();
   const token = useSelector(selectCurrentToken);
 
@@ -35,7 +38,7 @@ const Welcome = () => {
     <section className="welcome">
       <p>{today}</p>
 
-      <h1>Welcome!</h1>
+      <h1>Welcome! {username} </h1>
 
       <p>
         <Link to="/dash/notes">View techNotes</Link>
@@ -44,13 +47,17 @@ const Welcome = () => {
         <Link to="/dash/notes/new">Add New Note</Link>
       </p>
 
-      <p>
-        <Link to="/dash/users">View User Settings</Link>
-      </p>
+      {(isAdmin || isManager) && (
+        <p>
+          <Link to="/dash/users">View User Settings</Link>
+        </p>
+      )}
 
-      <p>
-        <Link to="/dash/users/new">Add New User</Link>
-      </p>
+      {(isAdmin || isManager) && (
+        <p>
+          <Link to="/dash/users/new">Add New User</Link>
+        </p>
+      )}
     </section>
   );
 
