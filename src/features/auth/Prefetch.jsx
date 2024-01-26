@@ -26,6 +26,9 @@ const Prefetch = () => {
       notes.unsubscribe();
       users.unsubscribe();
     };
+
+    // store.dispatch(notesApiSlice.util.prefetch('getNotes', 'notesList', { force: true }))
+    // store.dispatch(usersApiSlice.util.prefetch('getUsers', 'usersList', { force: true }))
   }, []);
 
   return <Outlet />;

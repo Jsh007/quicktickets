@@ -10,10 +10,10 @@
  */
 import { Link } from "react-router-dom";
 import { selectCurrentToken } from "./authSlice";
+import useAuth from "../../hooks/useAuth";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import useAuth from "../../hooks/useAuth";
 
 const Welcome = () => {
   const { username, isAdmin, isManager } = useAuth();
@@ -23,7 +23,7 @@ const Welcome = () => {
 
   useEffect(() => {
     // console.log(token);
-    if (token === null) {
+    if (!token) {
       navigate("/");
     }
   }, [token, navigate]);

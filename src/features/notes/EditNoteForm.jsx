@@ -1,23 +1,24 @@
 import { faSave, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { selectAllUsers, selectUsersById } from "../users/usersApiSlice";
 import { useDeleteNoteMutation, useUpdateNoteMutation } from "./notesApiSlice";
 /*
  * @Author: Joshua Eigbe self@joshuaeigbe.com
  * @Github: https://github.com/jsh007
  * @Date: 2024-01-15 11:07:34
  * @LastEditors: Joshua Eigbe self@joshuaeigbe.com
- * @LastEditTime: 2024-01-16 15:46:55
- * @FilePath: /mern_frontend_app2/src/features/notes/EditNoteForm.jsx
+ * @LastEditTime: 2024-01-25 23:20:26
+ * @FilePath: /quicktickets_frontend/src/features/notes/EditNoteForm.jsx
  * @copyrightText: Copyright (c) Joshua Eigbe. All Rights Reserved.
  * @Description: See Github repo
  */
 import { useEffect, useRef, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { selectUsersById } from "../users/usersApiSlice";
+import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-const EditNoteForm = ({ note }) => {
+const EditNoteForm = ({ note, users }) => {
   //   console.log(note);
   // Prepare REGEX
   //   const TITLE_REGEX = /^[A-z]$/;
@@ -30,11 +31,17 @@ const EditNoteForm = ({ note }) => {
   const [validText, setValidText] = useState(false);
   const [completed, setCompleted] = useState(note.completed);
 
+  const { username: authUser, isAdmin, isManager } = useAuth();
+
+  const [owner, setOwner] = useState(note.username || "");
+
   // Field Refs
   const statusRef = useRef();
 
   // Prepare RTK mutation actions
-  const user = useSelector((state) => selectUsersById(state, note.user));
+  // const user = useSelector((state) => selectUsersById(state, note.user));
+  // const allUsers = useSelector(selectAllUsers);
+  // console.log(allUsers);
 
   const [updateNote, { isError, isSuccess, isLoading, error }] =
     useUpdateNoteMutation();
@@ -71,23 +78,43 @@ const EditNoteForm = ({ note }) => {
     }
   }, [isSuccess, isDelSuccess, navigate]);
 
+  let options;
+
+  if (isAdmin || isManager) {
+    options = users.map((user) => {
+      const { _id: id, username } = user;
+      return (
+        <option key={id} value={username}>
+          {username}
+        </option>
+      );
+    });
+  } else {
+    options = (
+      <option key="1" value={owner}>
+        {owner}
+      </option>
+    );
+  }
+
   // Prepare handlers
   const handleTitleChanged = (e) => setTitle(e.target.value);
   const handleTextChanged = (e) => setText(e.target.value);
   const handleStatusChanged = () => setCompleted((prev) => !prev);
+  const handleOwnerChanged = (e) => {
+    // console.log(e.target.selectedOptions);
+    setOwner(e.target.value);
+  };
 
   const handleSaveNote = async () => {
-    if (title) {
-      await updateNote({
-        id: note.id,
-        user: note.user,
-        title,
-        text,
-        completed,
-      });
-    } else {
-      await updateNote({ id: note.id, user: note.user, text, completed });
-    }
+    await updateNote({
+      id: note.id,
+      user: note.user,
+      username: owner,
+      title,
+      text,
+      completed,
+    });
   };
 
   const handleDeleteNote = async () => {
@@ -109,6 +136,15 @@ const EditNoteForm = ({ note }) => {
   const validTextClass = !validText ? "form__input--incomplete" : "";
   const errContent = (error?.data?.message || delError?.data?.message) ?? "";
 
+  let deleteButton = null;
+  if (isManager || isAdmin) {
+    deleteButton = (
+      <button className="icon-button" title="Delete" onClick={handleDeleteNote}>
+        <FontAwesomeIcon icon={faTrashCan} />
+      </button>
+    );
+  }
+
   const content = (
     <>
       <p className={errClass}> {errContent} </p>
@@ -124,13 +160,7 @@ const EditNoteForm = ({ note }) => {
             >
               <FontAwesomeIcon icon={faSave} />
             </button>
-            <button
-              className="icon-button"
-              title="Delete"
-              onClick={handleDeleteNote}
-            >
-              <FontAwesomeIcon icon={faTrashCan} />
-            </button>
+            {deleteButton}
           </div>
         </div>
 
@@ -175,6 +205,21 @@ const EditNoteForm = ({ note }) => {
             <span className="note__status--open">Open</span>
           )}
         </label>
+
+        <label className="form__label" htmlFor="owner">
+          ASSIGNED TO:
+        </label>
+        <select
+          className={`form__select`}
+          id="owner"
+          name="owner"
+          //   multiple={true}
+          //   size="3"
+          value={owner}
+          onChange={handleOwnerChanged}
+        >
+          {options}
+        </select>
       </form>
     </>
   );

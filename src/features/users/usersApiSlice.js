@@ -3,8 +3,8 @@
  * @Github: https://github.com/jsh007
  * @Date: 2024-01-09 15:31:09
  * @LastEditors: Joshua Eigbe self@joshuaeigbe.com
- * @LastEditTime: 2024-01-14 16:51:05
- * @FilePath: /mern_frontend_app2/src/features/users/usersApiSlice.js
+ * @LastEditTime: 2024-01-26 08:44:07
+ * @FilePath: /quicktickets_frontend/src/features/users/usersApiSlice.js
  * @copyrightText: Copyright (c) Joshua Eigbe. All Rights Reserved.
  * @Description: See Github repo
  */

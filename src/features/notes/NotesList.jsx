@@ -3,15 +3,18 @@
  * @Github: https://github.com/jsh007
  * @Date: 2024-01-11 14:40:29
  * @LastEditors: Joshua Eigbe self@joshuaeigbe.com
- * @LastEditTime: 2024-01-22 21:10:53
- * @FilePath: /mern_frontend_app2/src/features/notes/NotesList.jsx
+ * @LastEditTime: 2024-01-25 14:58:11
+ * @FilePath: /quicktickets_frontend/src/features/notes/NotesList.jsx
  * @copyrightText: Copyright (c) Joshua Eigbe. All Rights Reserved.
  * @Description: See Github repo
  */
+import useAuth from "../../hooks/useAuth";
 import Note from "./Note";
 import { useGetNotesQuery } from "./notesApiSlice";
 
 const NotesList = () => {
+  const { username, isAdmin, isManager } = useAuth();
+
   const {
     data: notes,
     isSuccess,
@@ -29,10 +32,21 @@ const NotesList = () => {
   if (isError) content = <p className="errmsg">{error?.data?.message}</p>;
 
   if (isSuccess) {
-    const { ids } = notes;
-    const tableContent = ids?.length
-      ? ids.map((noteId) => <Note key={noteId} noteId={noteId} />) // Returns a row of notes data to the table
-      : null;
+    const { ids, entities } = notes;
+    console.log(notes);
+
+    let filteredIds;
+    if (isAdmin || isManager) {
+      filteredIds = [...ids];
+    } else {
+      filteredIds = ids.filter(
+        (noteId) => entities[noteId].username === username // Find a way to create notes that has a username field in addition to existing user field.
+      );
+    }
+    // console.log(filteredIds);
+    const tableContent =
+      ids?.length &&
+      filteredIds.map((noteId) => <Note key={noteId} noteId={noteId} />); // Returns a row of notes data to the table
 
     content = (
       <table className="table table--notes">

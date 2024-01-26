@@ -3,8 +3,8 @@
  * @Github: https://github.com/jsh007
  * @Date: 2024-01-11 22:49:43
  * @LastEditors: Joshua Eigbe self@joshuaeigbe.com
- * @LastEditTime: 2024-01-15 12:46:35
- * @FilePath: /mern_frontend_app2/src/features/notes/Note.jsx
+ * @LastEditTime: 2024-01-25 21:41:07
+ * @FilePath: /quicktickets_frontend/src/features/notes/Note.jsx
  * @copyrightText: Copyright (c) Joshua Eigbe. All Rights Reserved.
  * @Description: See Github repo
  */
@@ -14,12 +14,19 @@ import { selectNotesById } from "./notesApiSlice";
 import { selectUsersById } from "../users/usersApiSlice";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { selectCurrentToken } from "../auth/authSlice";
 
 const Note = ({ noteId }) => {
+  const token = useSelector(selectCurrentToken);
   const note = useSelector((state) => selectNotesById(state, noteId));
-  const { username } = useSelector((state) =>
-    selectUsersById(state, note.user)
-  );
+  // console.log(note);
+
+  // const { username: OldUsername } = useSelector((state) =>
+  //   selectUsersById(state, note.user)
+  // );
+
+  // console.log(noteUser);
+
   const navigate = useNavigate();
 
   if (note) {
@@ -44,7 +51,7 @@ const Note = ({ noteId }) => {
           )}
         </td>
         <td className="table__cell note__title"> {note.title} </td>
-        <td className="table__cell note__username"> {username} </td>
+        <td className="table__cell note__username">{note.username}</td>
         <td className="table__cell">
           <button className="icon-button table__button" onClick={handleEdit}>
             <FontAwesomeIcon icon={faPenToSquare} />

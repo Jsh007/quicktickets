@@ -3,8 +3,8 @@
  * @Github: https://github.com/jsh007
  * @Date: 2024-01-09 15:31:09
  * @LastEditors: Joshua Eigbe self@joshuaeigbe.com
- * @LastEditTime: 2024-01-14 16:50:42
- * @FilePath: /mern_frontend_app2/src/features/notes/notesApiSlice.js
+ * @LastEditTime: 2024-01-26 08:54:56
+ * @FilePath: /quicktickets_frontend/src/features/notes/notesApiSlice.js
  * @copyrightText: Copyright (c) Joshua Eigbe. All Rights Reserved.
  * @Description: See Github repo
  */
@@ -27,19 +27,30 @@ export const notesApiSlice = apiSlice.injectEndpoints({
         return response.status === 200 && !result.isError;
       },
       transformResponse: (responseData) => {
-        const loadedNotes = responseData.map((note) => {
+        // console.log(responseData);
+        // const idField = {responseData.id}
+        // const responseObject = [...responseData];
+        // console.log(responseObject);
+        // console.log(responseData);
+
+        // if (!responseData.length) {
+        //   loadedNotes = [];
+        // }
+
+        let loadedNotes = responseData.map((note) => {
           note.id = note._id;
           return note;
         });
+
         return notesAdapter.setAll(initialState, loadedNotes);
       },
       providesTags: (result) => {
         if (result?.ids) {
           return [
-            { type: "note", id: "LIST" },
-            ...result.ids.map((id) => ({ type: "note", id })),
+            { type: "Note", id: "LIST" },
+            ...result.ids.map((id) => ({ type: "Note", id })),
           ];
-        } else return [{ type: "note", id: "LIST" }];
+        } else return [{ type: "Note", id: "LIST" }];
       },
     }),
     addNewNote: builder.mutation({
@@ -49,8 +60,8 @@ export const notesApiSlice = apiSlice.injectEndpoints({
         body: {
           ...initialNoteData,
         },
-        invalidesTags: [{ type: "Notes", id: "LIST" }],
       }),
+      invalidatesTags: [{ type: "Note", id: "LIST" }],
     }),
     updateNote: builder.mutation({
       query: (initialNoteData) => ({

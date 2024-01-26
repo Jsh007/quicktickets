@@ -5,8 +5,8 @@ import { logOut, setCredentials } from "./authSlice";
  * @Github: https://github.com/jsh007
  * @Date: 2024-01-19 21:50:21
  * @LastEditors: Joshua Eigbe self@joshuaeigbe.com
- * @LastEditTime: 2024-01-23 23:12:58
- * @FilePath: /mern_frontend_app2/src/features/auth/authApiSlice.js
+ * @LastEditTime: 2024-01-25 22:05:47
+ * @FilePath: /quicktickets_frontend/src/features/auth/authApiSlice.js
  * @copyrightText: Copyright (c) Joshua Eigbe. All Rights Reserved.
  * @Description: See Github repo
  */
@@ -46,7 +46,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
-          console.log(data);
+          // console.log(data);
           const { accessToken } = data;
           dispatch(setCredentials({ accessToken }));
         } catch (error) {

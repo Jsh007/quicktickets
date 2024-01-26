@@ -3,8 +3,8 @@
  * @Github: https://github.com/jsh007
  * @Date: 2024-01-23 16:04:39
  * @LastEditors: Joshua Eigbe self@joshuaeigbe.com
- * @LastEditTime: 2024-01-23 22:55:54
- * @FilePath: /mern_frontend_app2/src/features/auth/PersistLogin.jsx
+ * @LastEditTime: 2024-01-26 09:19:14
+ * @FilePath: /quicktickets_frontend/src/features/auth/PersistLogin.jsx
  * @copyrightText: Copyright (c) Joshua Eigbe. All Rights Reserved.
  * @Description: See Github repo
  */
@@ -13,11 +13,14 @@ import { useEffect, useRef, useState } from "react";
 
 import React from "react";
 import { selectCurrentToken } from "./authSlice";
+import useAuth from "../../hooks/useAuth";
 import usePersist from "../../hooks/usePersist";
 import { useRefreshMutation } from "./authApiSlice";
 import { useSelector } from "react-redux";
 
 const PersistLogin = () => {
+  // const { roles } = useAuth();
+
   const [persist] = usePersist();
   const token = useSelector(selectCurrentToken);
   const effectRan = useRef(false);
@@ -28,7 +31,7 @@ const PersistLogin = () => {
     useRefreshMutation();
 
   useEffect(() => {
-    if (effectRan.current === true || process.env.NODE_ENV !== "development") {
+    if (effectRan.current === true) {
       const verifyRefreshToken = async () => {
         console.log("...verifying Refresh Token");
         try {
@@ -59,7 +62,7 @@ const PersistLogin = () => {
     // persist: yes, token: no
     content = (
       <p className="errmsg">
-        {error.data?.message}
+        {`${error?.data?.message} - `}
         <Link to="/login">Please login again</Link>
       </p>
     );
@@ -71,6 +74,7 @@ const PersistLogin = () => {
     // persist: yes, token: yes
     console.log("token and uninit !");
     console.log(isUninitialized);
+    // console.log(roles);
     content = <Outlet />;
   }
 

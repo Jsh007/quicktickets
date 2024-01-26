@@ -3,8 +3,8 @@
  * @Github: https://github.com/jsh007
  * @Date: 2024-01-09 14:45:34
  * @LastEditors: Joshua Eigbe self@joshuaeigbe.com
- * @LastEditTime: 2024-01-22 21:11:22
- * @FilePath: /mern_frontend_app2/src/features/users/UsersList.jsx
+ * @LastEditTime: 2024-01-26 09:15:55
+ * @FilePath: /quicktickets_frontend/src/features/users/UsersList.jsx
  * @copyrightText: Copyright (c) Joshua Eigbe. All Rights Reserved.
  * @Description: See Github repo
  */
@@ -32,9 +32,8 @@ const UsersList = () => {
   if (isSuccess) {
     // console.log(users);
     const { ids } = users;
-    const tableContent = ids.length
-      ? ids.map((userId) => <User key={userId} userId={userId} />)
-      : null;
+    const tableContent =
+      ids.length && ids.map((userId) => <User key={userId} userId={userId} />);
 
     content = (
       <table className="table table--users">

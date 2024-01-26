@@ -3,8 +3,8 @@
  * @Github: https://github.com/jsh007
  * @Date: 2024-01-11 14:28:18
  * @LastEditors: Joshua Eigbe self@joshuaeigbe.com
- * @LastEditTime: 2024-01-23 15:30:13
- * @FilePath: /mern_frontend_app2/src/app/api/apiSlice.js
+ * @LastEditTime: 2024-01-26 09:27:16
+ * @FilePath: /quicktickets_frontend/src/app/api/apiSlice.js
  * @copyrightText: Copyright (c) Joshua Eigbe. All Rights Reserved.
  * @Description: See Github repo
  */
@@ -48,10 +48,10 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
       result = await baseQuery(args, api, extraOptions);
     } else {
       if (refreshResult?.error?.status === 403) {
-        refreshResult.error.data.message = "Your access token has expired ";
+        refreshResult.error.data.message = "Your access token has expired";
       }
-      return refreshResult;
     }
+    return refreshResult;
   }
   return result;
 };

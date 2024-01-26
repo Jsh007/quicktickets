@@ -3,8 +3,8 @@
  * @Github: https://github.com/jsh007
  * @Date: 2024-01-15 11:01:47
  * @LastEditors: Joshua Eigbe self@joshuaeigbe.com
- * @LastEditTime: 2024-01-16 15:47:14
- * @FilePath: /mern_frontend_app2/src/features/notes/NewNoteForm.jsx
+ * @LastEditTime: 2024-01-26 08:50:55
+ * @FilePath: /quicktickets_frontend/src/features/notes/NewNoteForm.jsx
  * @copyrightText: Copyright (c) Joshua Eigbe. All Rights Reserved.
  * @Description: See Github repo
  */
@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave } from "@fortawesome/free-solid-svg-icons";
 import { useAddNewNoteMutation } from "./notesApiSlice";
+import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 
 const NewNoteForm = ({ users }) => {
@@ -26,7 +27,10 @@ const NewNoteForm = ({ users }) => {
   const [validText, setValidText] = useState(false);
   const [completed, setCompleted] = useState(false);
   const [usersList, setUsersList] = useState(users);
-  const [owner, setOwner] = useState(users[0]?.username);
+
+  const { username: authUser, isAdmin, isManager } = useAuth();
+
+  const [owner, setOwner] = useState(authUser);
 
   // Validate fields
   useEffect(() => {
@@ -56,14 +60,24 @@ const NewNoteForm = ({ users }) => {
 
   // Prepare Select Field options (ASSIGNED TO )
 
-  const options = users.map((user) => {
-    const { _id: id, username } = user;
-    return (
-      <option key={id} value={username}>
-        {username}
+  let options;
+
+  if (isAdmin || isManager) {
+    options = users.map((user) => {
+      const { _id: id, username } = user;
+      return (
+        <option key={id} value={username}>
+          {username}
+        </option>
+      );
+    });
+  } else {
+    options = (
+      <option key="1" value={authUser}>
+        {authUser}
       </option>
     );
-  });
+  }
 
   // Prepare handlers
   const handleTitleChanged = (e) => setTitle(e.target.value);
@@ -74,12 +88,15 @@ const NewNoteForm = ({ users }) => {
   };
 
   const handleSaveNote = async () => {
-    const [{ id }] = usersList.filter((user) => user.username === owner);
-    // console.log(user);
-    console.log(id);
+    const [{ id, username }] = usersList.filter(
+      (user) => user.username === owner
+    );
+    // console.log(username, owner);
+    // console.log(id);
 
     await addNote({
       user: id,
+      username,
       title,
       text,
       completed,
