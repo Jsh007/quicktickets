@@ -1,22 +1,20 @@
 import { faSave, faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import { selectAllUsers, selectUsersById } from "../users/usersApiSlice";
 import { useDeleteNoteMutation, useUpdateNoteMutation } from "./notesApiSlice";
 /*
  * @Author: Joshua Eigbe self@joshuaeigbe.com
  * @Github: https://github.com/jsh007
  * @Date: 2024-01-15 11:07:34
  * @LastEditors: Joshua Eigbe jeigbe@gmail.com
- * @LastEditTime: 2024-01-27 23:38:01
+ * @LastEditTime: 2024-01-28 15:49:48
  * @FilePath: /quicktickets_frontend/src/features/notes/EditNoteForm.jsx
  * @copyrightText: Copyright (c) Joshua Eigbe. All Rights Reserved.
  * @Description: See Github repo
  */
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 const EditNoteForm = ({ note, users }) => {
   //   console.log(note);
@@ -31,13 +29,13 @@ const EditNoteForm = ({ note, users }) => {
   const [validText, setValidText] = useState(false);
   const [completed, setCompleted] = useState(note.completed);
 
-  const { username: authUser, isAdmin, isManager } = useAuth();
+  const { username, isAdmin, isManager } = useAuth();
 
-  const [owner, setOwner] = useState(note.user || "");
+  const [owner, setOwner] = useState(note.user);
   // const [ownerId, setOwnerId] = useState(note.user || "");
 
   // Field Refs
-  const statusRef = useRef();
+  // const statusRef = useRef();
 
   // Prepare RTK mutation actions
   // const user = useSelector((state) => selectUsersById(state, note.user));
@@ -93,7 +91,7 @@ const EditNoteForm = ({ note, users }) => {
   } else {
     options = (
       <option key="1" value={owner}>
-        {authUser}
+        {username}
       </option>
     );
   }
@@ -105,21 +103,21 @@ const EditNoteForm = ({ note, users }) => {
   const handleOwnerChanged = (e) => {
     // console.log(e.target.selectedOptions);
     setOwner(e.target.value);
-    console.log(owner);
+    // console.log(owner);
     // console.log(e.target.selectedOptions.innerText);
   };
 
   const handleSaveNote = async () => {
     // console.log(users);
-    const [{ username }] = users.filter((user) => {
-      return user.id === owner;
-    });
+    // const [{ username }] = users.filter((user) => {
+    //   return user.id === owner;
+    // });
 
     // console.log(username);
     await updateNote({
       id: note.id,
       user: owner,
-      username: username,
+      // username: username,
       title,
       text,
       completed,
@@ -205,7 +203,6 @@ const EditNoteForm = ({ note, users }) => {
             id="note-status"
             name="note-status"
             checked={completed}
-            ref={statusRef}
             onChange={handleStatusChanged}
           />
           {note.completed ? (

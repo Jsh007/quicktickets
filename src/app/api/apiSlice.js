@@ -2,8 +2,8 @@
  * @Author: Joshua Eigbe self@joshuaeigbe.com
  * @Github: https://github.com/jsh007
  * @Date: 2024-01-11 14:28:18
- * @LastEditors: Joshua Eigbe self@joshuaeigbe.com
- * @LastEditTime: 2024-01-26 09:27:16
+ * @LastEditors: Joshua Eigbe jeigbe@gmail.com
+ * @LastEditTime: 2024-01-28 15:40:34
  * @FilePath: /quicktickets_frontend/src/app/api/apiSlice.js
  * @copyrightText: Copyright (c) Joshua Eigbe. All Rights Reserved.
  * @Description: See Github repo
@@ -14,6 +14,7 @@ import { setCredentials } from "../../features/auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "http://localhost:3500",
+  // baseUrl: "http://localhost:4000",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = getState().auth.token;
@@ -48,10 +49,12 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
       result = await baseQuery(args, api, extraOptions);
     } else {
       if (refreshResult?.error?.status === 403) {
-        refreshResult.error.data.message = "Your access token has expired";
+        refreshResult.error.data.message = "Your refresh token has expired";
       }
+      return refreshResult; // This
     }
-    return refreshResult;
+    // return refreshResult; // This was the problem causing my frontend to crash
+    //each time it undergo a refresh operation and receives a new access token.
   }
   return result;
 };

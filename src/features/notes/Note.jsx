@@ -1,11 +1,9 @@
-import { selectNotesById, useGetNotesQuery } from "./notesApiSlice";
-
 /*
  * @Author: Joshua Eigbe self@joshuaeigbe.com
  * @Github: https://github.com/jsh007
  * @Date: 2024-01-11 22:49:43
- * @LastEditors: Joshua Eigbe self@joshuaeigbe.com
- * @LastEditTime: 2024-01-26 14:22:31
+ * @LastEditors: Joshua Eigbe jeigbe@gmail.com
+ * @LastEditTime: 2024-01-28 14:55:12
  * @FilePath: /quicktickets_frontend/src/features/notes/Note.jsx
  * @copyrightText: Copyright (c) Joshua Eigbe. All Rights Reserved.
  * @Description: See Github repo
@@ -13,6 +11,7 @@ import { selectNotesById, useGetNotesQuery } from "./notesApiSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { memo } from "react";
+import { useGetNotesQuery } from "./notesApiSlice";
 // import { selectUsersById } from "../users/usersApiSlice";
 import { useNavigate } from "react-router-dom";
 

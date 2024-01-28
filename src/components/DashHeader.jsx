@@ -2,8 +2,8 @@
  * @Author: Joshua Eigbe self@joshuaeigbe.com
  * @Github: https://github.com/jsh007
  * @Date: 2024-01-11 14:38:19
- * @LastEditors: Joshua Eigbe self@joshuaeigbe.com
- * @LastEditTime: 2024-01-26 12:31:02
+ * @LastEditors: Joshua Eigbe jeigbe@gmail.com
+ * @LastEditTime: 2024-01-28 23:02:10
  * @FilePath: /quicktickets_frontend/src/components/DashHeader.jsx
  * @copyrightText: Copyright (c) Joshua Eigbe. All Rights Reserved.
  * @Description: See Github repo
@@ -41,10 +41,9 @@ const DashHeader = () => {
   //   // console.log(isSuccess);
   //   // console.log(isError);
   //   // console.log(error);
-  //   if (isSuccess) {
-  //     navigate("/");
-  //   }
-  // }, [isSuccess, navigate]);
+  //   // if(isSuccess) navigate("/");
+  //   navigate("/");
+  // }, [sendLogout]);
 
   // if (isLoading) return <p>Logging out...</p>;
 
@@ -57,7 +56,6 @@ const DashHeader = () => {
   const handleUsersClicked = () => navigate("/dash/users");
 
   const handleLogout = () => {
-    // Find a safer way to log out
     sendLogout();
     navigate("/");
   };

@@ -1,9 +1,9 @@
 /*
- * @Author: Joshua Eigbe self@joshuaeigbe.com
+ * @Author: Joshua Eigbe jeigbe@gmail.com
  * @Github: https://github.com/jsh007
- * @Date: 2024-01-23 16:04:39
+ * @Date: 2024-01-24 09:54:30
  * @LastEditors: Joshua Eigbe jeigbe@gmail.com
- * @LastEditTime: 2024-01-27 22:54:50
+ * @LastEditTime: 2024-01-28 15:15:55
  * @FilePath: /quicktickets_frontend/src/features/auth/PersistLogin.jsx
  * @copyrightText: Copyright (c) Joshua Eigbe. All Rights Reserved.
  * @Description: See Github repo
@@ -11,16 +11,12 @@
 import { Link, Outlet } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 
-import React from "react";
 import { selectCurrentToken } from "./authSlice";
-import useAuth from "../../hooks/useAuth";
 import usePersist from "../../hooks/usePersist";
 import { useRefreshMutation } from "./authApiSlice";
 import { useSelector } from "react-redux";
 
 const PersistLogin = () => {
-  // const { roles } = useAuth();
-
   const [persist] = usePersist();
   const token = useSelector(selectCurrentToken);
   const effectRan = useRef(false);

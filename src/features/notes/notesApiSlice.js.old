@@ -1,9 +1,9 @@
 /*
- * @Author: Joshua Eigbe jeigbe@gmail.com
+ * @Author: Joshua Eigbe self@joshuaeigbe.com
  * @Github: https://github.com/jsh007
- * @Date: 2024-01-28 14:51:34
+ * @Date: 2024-01-09 15:31:09
  * @LastEditors: Joshua Eigbe jeigbe@gmail.com
- * @LastEditTime: 2024-01-28 14:51:39
+ * @LastEditTime: 2024-01-28 13:44:24
  * @FilePath: /quicktickets_frontend/src/features/notes/notesApiSlice.js
  * @copyrightText: Copyright (c) Joshua Eigbe. All Rights Reserved.
  * @Description: See Github repo
@@ -17,7 +17,7 @@ const notesAdapter = createEntityAdapter({
     a.completed === b.completed ? 0 : a.completed ? 1 : -1,
 });
 
-const initialState = notesAdapter.getInitialState();
+const initialState = notesAdapter?.getInitialState();
 
 export const notesApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -29,13 +29,24 @@ export const notesApiSlice = apiSlice.injectEndpoints({
         },
       }),
       transformResponse: (responseData) => {
-        const loadedNotes = responseData.map((note) => {
+        // console.log(responseData);
+        // const idField = {responseData.id}
+        // const responseObject = [...responseData];
+        // console.log(responseObject);
+        // console.log(responseData);
+
+        // if (!responseData.length) {
+        //   loadedNotes = [];
+        // }
+
+        let loadedNotes = responseData.map((note) => {
           note.id = note._id;
           return note;
         });
+
         return notesAdapter.setAll(initialState, loadedNotes);
       },
-      providesTags: (result, error, arg) => {
+      providesTags: (result) => {
         if (result?.ids) {
           return [
             { type: "Note", id: "LIST" },
@@ -45,28 +56,28 @@ export const notesApiSlice = apiSlice.injectEndpoints({
       },
     }),
     addNewNote: builder.mutation({
-      query: (initialNote) => ({
+      query: (initialNoteData) => ({
         url: "/notes",
         method: "POST",
         body: {
-          ...initialNote,
+          ...initialNoteData,
         },
       }),
       invalidatesTags: [{ type: "Note", id: "LIST" }],
     }),
     updateNote: builder.mutation({
-      query: (initialNote) => ({
+      query: (initialNoteData) => ({
         url: "/notes",
         method: "PATCH",
         body: {
-          ...initialNote,
+          ...initialNoteData,
         },
       }),
       invalidatesTags: (result, error, arg) => [{ type: "Note", id: arg.id }],
     }),
     deleteNote: builder.mutation({
       query: ({ id }) => ({
-        url: `/notes`,
+        url: "/notes",
         method: "DELETE",
         body: { id },
       }),
@@ -82,21 +93,22 @@ export const {
   useDeleteNoteMutation,
 } = notesApiSlice;
 
-// returns the query result object
-export const selectNotesResult = notesApiSlice.endpoints.getNotes.select();
+// Return the query results object
 
-// creates memoized selector
+const selectNotesResult = notesApiSlice.endpoints.getNotes.select();
+
+// Create memoized selector
 const selectNotesData = createSelector(
   selectNotesResult,
-  (notesResult) => notesResult.data // normalized state object with ids & entities
+  (notesResult) => notesResult.data // This returns normalized state object with ids and entities
 );
 
-//getSelectors creates these selectors and we rename them with aliases using destructuring
+// getSelectors creates these selectors and here we're renaming them with aliases using destructuring
+
 export const {
   selectAll: selectAllNotes,
-  selectById: selectNoteById,
+  selectById: selectNotesById,
   selectIds: selectNoteIds,
-  // Pass in a selector that returns the notes slice of state
 } = notesAdapter.getSelectors(
   (state) => selectNotesData(state) ?? initialState
 );

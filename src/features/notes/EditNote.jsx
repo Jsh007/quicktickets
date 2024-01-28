@@ -3,7 +3,7 @@
  * @Github: https://github.com/jsh007
  * @Date: 2024-01-24 09:54:30
  * @LastEditors: Joshua Eigbe jeigbe@gmail.com
- * @LastEditTime: 2024-01-27 23:10:29
+ * @LastEditTime: 2024-01-28 13:19:39
  * @FilePath: /quicktickets_frontend/src/features/notes/EditNote.jsx
  * @copyrightText: Copyright (c) Joshua Eigbe. All Rights Reserved.
  * @Description: See Github repo
@@ -34,7 +34,12 @@ const EditNote = () => {
 
   if (!isManager || !isAdmin) {
     // Better to use id because username can change
-    if (note.user !== userId) {
+    // if (note.user !== userId) {
+    //   return <p className="errmsg">Access Denied !</p>;
+    // }
+
+    // You may use username if it is prefected in the getNotes() query and spread into the notes data coming from the backend.
+    if (note.username !== username) {
       return <p className="errmsg">Access Denied !</p>;
     }
   }

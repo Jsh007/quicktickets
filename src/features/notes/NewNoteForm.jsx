@@ -3,7 +3,7 @@
  * @Github: https://github.com/jsh007
  * @Date: 2024-01-15 11:01:47
  * @LastEditors: Joshua Eigbe jeigbe@gmail.com
- * @LastEditTime: 2024-01-27 23:32:06
+ * @LastEditTime: 2024-01-28 14:32:20
  * @FilePath: /quicktickets_frontend/src/features/notes/NewNoteForm.jsx
  * @copyrightText: Copyright (c) Joshua Eigbe. All Rights Reserved.
  * @Description: See Github repo
@@ -15,7 +15,6 @@ import { faSave } from "@fortawesome/free-solid-svg-icons";
 import { useAddNewNoteMutation } from "./notesApiSlice";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import { v4 as uuid } from "uuid";
 
 const NewNoteForm = ({ users }) => {
   const TITLE_REGEX = /[a-zA-Z]+/;
@@ -29,9 +28,9 @@ const NewNoteForm = ({ users }) => {
   const [completed, setCompleted] = useState(false);
   const [usersList, setUsersList] = useState(users);
 
-  const { username: authUser, id, isAdmin, isManager } = useAuth();
+  const { username, isAdmin, isManager } = useAuth();
 
-  const [owner, setOwner] = useState(authUser);
+  const [owner, setOwner] = useState(username);
 
   // Validate fields
   useEffect(() => {
@@ -89,15 +88,13 @@ const NewNoteForm = ({ users }) => {
   };
 
   const handleSaveNote = async () => {
-    const [{ id: userId, username }] = usersList.filter(
-      (user) => user.id === id
-    );
+    const [{ id }] = usersList.filter((user) => user.username === owner);
     // console.log(username, owner);
     // console.log(id);
 
     await addNote({
-      user: userId,
-      username,
+      user: id,
+      // username,
       title,
       text,
       completed,

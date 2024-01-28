@@ -2,8 +2,8 @@
  * @Author: Joshua Eigbe self@joshuaeigbe.com
  * @Github: https://github.com/jsh007
  * @Date: 2024-01-09 14:25:29
- * @LastEditors: Joshua Eigbe self@joshuaeigbe.com
- * @LastEditTime: 2024-01-25 00:06:31
+ * @LastEditors: Joshua Eigbe jeigbe@gmail.com
+ * @LastEditTime: 2024-01-28 14:23:23
  * @FilePath: /quicktickets_frontend/src/features/auth/Welcome.jsx
  * @copyrightText: Copyright (c) Joshua Eigbe. All Rights Reserved.
  * @Description: See Github repo
@@ -18,15 +18,15 @@ import { useSelector } from "react-redux";
 const Welcome = () => {
   const { username, isAdmin, isManager } = useAuth();
 
-  const navigate = useNavigate();
-  const token = useSelector(selectCurrentToken);
+  // const navigate = useNavigate();
+  // const token = useSelector(selectCurrentToken);
 
-  useEffect(() => {
-    // console.log(token);
-    if (!token) {
-      navigate("/");
-    }
-  }, [token, navigate]);
+  // useEffect(() => {
+  //   // console.log(token);
+  //   if (!token) {
+  //     navigate("/");
+  //   }
+  // }, [token, navigate]);
 
   const date = new Date();
   const today = new Intl.DateTimeFormat("en-US", {
