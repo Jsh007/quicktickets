@@ -1,31 +1,34 @@
+import { selectNotesById, useGetNotesQuery } from "./notesApiSlice";
+
 /*
  * @Author: Joshua Eigbe self@joshuaeigbe.com
  * @Github: https://github.com/jsh007
  * @Date: 2024-01-11 22:49:43
  * @LastEditors: Joshua Eigbe self@joshuaeigbe.com
- * @LastEditTime: 2024-01-25 21:41:07
+ * @LastEditTime: 2024-01-26 14:22:31
  * @FilePath: /quicktickets_frontend/src/features/notes/Note.jsx
  * @copyrightText: Copyright (c) Joshua Eigbe. All Rights Reserved.
  * @Description: See Github repo
  */
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
-import { selectNotesById } from "./notesApiSlice";
-import { selectUsersById } from "../users/usersApiSlice";
+import { memo } from "react";
+// import { selectUsersById } from "../users/usersApiSlice";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { selectCurrentToken } from "../auth/authSlice";
+
+// import { useSelector } from "react-redux";
+// import { selectCurrentToken } from "../auth/authSlice";
 
 const Note = ({ noteId }) => {
-  const token = useSelector(selectCurrentToken);
-  const note = useSelector((state) => selectNotesById(state, noteId));
+  // const token = useSelector(selectCurrentToken);
+  // const note = useSelector((state) => selectNotesById(state, noteId));
   // console.log(note);
 
-  // const { username: OldUsername } = useSelector((state) =>
-  //   selectUsersById(state, note.user)
-  // );
-
-  // console.log(noteUser);
+  const { note } = useGetNotesQuery("notesList", {
+    selectFromResult: ({ data }) => ({
+      note: data?.entities[noteId],
+    }),
+  });
 
   const navigate = useNavigate();
 
@@ -62,4 +65,5 @@ const Note = ({ noteId }) => {
   } else return null;
 };
 
-export default Note;
+const memoizedNote = memo(Note);
+export default memoizedNote;

@@ -4,8 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
  * @Github: https://github.com/jsh007
  * @Date: 2024-01-11 14:40:29
  * @LastEditors: Joshua Eigbe self@joshuaeigbe.com
- * @LastEditTime: 2024-01-23 16:01:07
- * @FilePath: /mern_frontend_app2/src/features/auth/Login.jsx
+ * @LastEditTime: 2024-01-27 00:11:25
+ * @FilePath: /quicktickets_frontend/src/features/auth/Login.jsx
  * @copyrightText: Copyright (c) Joshua Eigbe. All Rights Reserved.
  * @Description: See Github repo
  */
@@ -108,7 +108,7 @@ const Login = () => {
               className="form__checkbox"
               onChange={handleToggle}
               checked={persist}
-            />{" "}
+            />
             Trust This Device
           </label>
         </form>

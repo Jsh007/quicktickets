@@ -2,8 +2,8 @@
  * @Author: Joshua Eigbe self@joshuaeigbe.com
  * @Github: https://github.com/jsh007
  * @Date: 2024-01-15 11:01:47
- * @LastEditors: Joshua Eigbe self@joshuaeigbe.com
- * @LastEditTime: 2024-01-26 08:50:55
+ * @LastEditors: Joshua Eigbe jeigbe@gmail.com
+ * @LastEditTime: 2024-01-27 23:32:06
  * @FilePath: /quicktickets_frontend/src/features/notes/NewNoteForm.jsx
  * @copyrightText: Copyright (c) Joshua Eigbe. All Rights Reserved.
  * @Description: See Github repo
@@ -15,6 +15,7 @@ import { faSave } from "@fortawesome/free-solid-svg-icons";
 import { useAddNewNoteMutation } from "./notesApiSlice";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import { v4 as uuid } from "uuid";
 
 const NewNoteForm = ({ users }) => {
   const TITLE_REGEX = /[a-zA-Z]+/;
@@ -28,7 +29,7 @@ const NewNoteForm = ({ users }) => {
   const [completed, setCompleted] = useState(false);
   const [usersList, setUsersList] = useState(users);
 
-  const { username: authUser, isAdmin, isManager } = useAuth();
+  const { username: authUser, id, isAdmin, isManager } = useAuth();
 
   const [owner, setOwner] = useState(authUser);
 
@@ -63,7 +64,7 @@ const NewNoteForm = ({ users }) => {
   let options;
 
   if (isAdmin || isManager) {
-    options = users.map((user) => {
+    options = usersList.map((user) => {
       const { _id: id, username } = user;
       return (
         <option key={id} value={username}>
@@ -73,8 +74,8 @@ const NewNoteForm = ({ users }) => {
     });
   } else {
     options = (
-      <option key="1" value={authUser}>
-        {authUser}
+      <option key="1" value={owner}>
+        {owner}
       </option>
     );
   }
@@ -88,14 +89,14 @@ const NewNoteForm = ({ users }) => {
   };
 
   const handleSaveNote = async () => {
-    const [{ id, username }] = usersList.filter(
-      (user) => user.username === owner
+    const [{ id: userId, username }] = usersList.filter(
+      (user) => user.id === id
     );
     // console.log(username, owner);
     // console.log(id);
 
     await addNote({
-      user: id,
+      user: userId,
       username,
       title,
       text,

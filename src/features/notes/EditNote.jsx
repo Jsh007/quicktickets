@@ -2,31 +2,44 @@
  * @Author: Joshua Eigbe self@joshuaeigbe.com
  * @Github: https://github.com/jsh007
  * @Date: 2024-01-24 09:54:30
- * @LastEditors: Joshua Eigbe self@joshuaeigbe.com
- * @LastEditTime: 2024-01-25 23:03:41
+ * @LastEditors: Joshua Eigbe jeigbe@gmail.com
+ * @LastEditTime: 2024-01-27 23:10:29
  * @FilePath: /quicktickets_frontend/src/features/notes/EditNote.jsx
  * @copyrightText: Copyright (c) Joshua Eigbe. All Rights Reserved.
  * @Description: See Github repo
  */
 import EditNoteForm from "./EditNoteForm";
-import { selectAllUsers } from "../users/usersApiSlice";
-// import { selectAllUsers } from "../users/usersApiSlice";
-import { selectNotesById } from "./notesApiSlice";
+import { PulseLoader } from "react-spinners";
+import useAuth from "../../hooks/useAuth";
+import { useGetNotesQuery } from "./notesApiSlice";
+import { useGetUsersQuery } from "../users/usersApiSlice";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 const EditNote = () => {
-  // const users = useSelector(selectAllUsers);
   const { id } = useParams();
-  const note = useSelector((state) => selectNotesById(state, id));
-  const users = useSelector(selectAllUsers);
+  const { username, id: userId, isAdmin, isManager } = useAuth();
+  // Get this note
+  const { note } = useGetNotesQuery("notesList", {
+    selectFromResult: ({ data }) => ({ note: data?.entities[id] }),
+  });
 
-  const content =
-    note && users ? (
-      <EditNoteForm note={note} users={users} />
-    ) : (
-      <p>Loading...</p>
-    );
+  // Get all users
+  const { users } = useGetUsersQuery("usersList", {
+    selectFromResult: ({ data }) => ({
+      users: data?.ids.map((id) => data?.entities[id]),
+    }),
+  });
+
+  if (!note || !users?.length) return <PulseLoader color={"#fff"} />;
+
+  if (!isManager || !isAdmin) {
+    // Better to use id because username can change
+    if (note.user !== userId) {
+      return <p className="errmsg">Access Denied !</p>;
+    }
+  }
+
+  const content = <EditNoteForm note={note} users={users} />;
 
   return content;
 };

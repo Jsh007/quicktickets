@@ -5,8 +5,8 @@ import { useDeleteNoteMutation, useUpdateNoteMutation } from "./notesApiSlice";
  * @Author: Joshua Eigbe self@joshuaeigbe.com
  * @Github: https://github.com/jsh007
  * @Date: 2024-01-15 11:07:34
- * @LastEditors: Joshua Eigbe self@joshuaeigbe.com
- * @LastEditTime: 2024-01-25 23:20:26
+ * @LastEditors: Joshua Eigbe jeigbe@gmail.com
+ * @LastEditTime: 2024-01-27 23:38:01
  * @FilePath: /quicktickets_frontend/src/features/notes/EditNoteForm.jsx
  * @copyrightText: Copyright (c) Joshua Eigbe. All Rights Reserved.
  * @Description: See Github repo
@@ -33,7 +33,8 @@ const EditNoteForm = ({ note, users }) => {
 
   const { username: authUser, isAdmin, isManager } = useAuth();
 
-  const [owner, setOwner] = useState(note.username || "");
+  const [owner, setOwner] = useState(note.user || "");
+  // const [ownerId, setOwnerId] = useState(note.user || "");
 
   // Field Refs
   const statusRef = useRef();
@@ -82,9 +83,9 @@ const EditNoteForm = ({ note, users }) => {
 
   if (isAdmin || isManager) {
     options = users.map((user) => {
-      const { _id: id, username } = user;
+      const { id, username } = user;
       return (
-        <option key={id} value={username}>
+        <option key={id} value={id}>
           {username}
         </option>
       );
@@ -92,7 +93,7 @@ const EditNoteForm = ({ note, users }) => {
   } else {
     options = (
       <option key="1" value={owner}>
-        {owner}
+        {authUser}
       </option>
     );
   }
@@ -104,13 +105,21 @@ const EditNoteForm = ({ note, users }) => {
   const handleOwnerChanged = (e) => {
     // console.log(e.target.selectedOptions);
     setOwner(e.target.value);
+    console.log(owner);
+    // console.log(e.target.selectedOptions.innerText);
   };
 
   const handleSaveNote = async () => {
+    // console.log(users);
+    const [{ username }] = users.filter((user) => {
+      return user.id === owner;
+    });
+
+    // console.log(username);
     await updateNote({
       id: note.id,
-      user: note.user,
-      username: owner,
+      user: owner,
+      username: username,
       title,
       text,
       completed,

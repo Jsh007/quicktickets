@@ -2,13 +2,14 @@
  * @Author: Joshua Eigbe self@joshuaeigbe.com
  * @Github: https://github.com/jsh007
  * @Date: 2024-01-09 14:45:34
- * @LastEditors: Joshua Eigbe self@joshuaeigbe.com
- * @LastEditTime: 2024-01-26 09:15:55
+ * @LastEditors: Joshua Eigbe jeigbe@gmail.com
+ * @LastEditTime: 2024-01-27 23:07:41
  * @FilePath: /quicktickets_frontend/src/features/users/UsersList.jsx
  * @copyrightText: Copyright (c) Joshua Eigbe. All Rights Reserved.
  * @Description: See Github repo
  */
 
+import { PulseLoader } from "react-spinners";
 import User from "./User";
 import { useGetUsersQuery } from "./usersApiSlice";
 
@@ -26,7 +27,7 @@ const UsersList = () => {
   });
 
   let content;
-  if (isLoading) content = <p>Loading...</p>;
+  if (isLoading) content = <PulseLoader color={"#fff"} />;
   if (isError) content = <p className="errmsg">{error?.data?.message}</p>;
 
   if (isSuccess) {

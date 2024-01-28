@@ -2,8 +2,8 @@
  * @Author: Joshua Eigbe self@joshuaeigbe.com
  * @Github: https://github.com/jsh007
  * @Date: 2024-01-09 15:31:09
- * @LastEditors: Joshua Eigbe self@joshuaeigbe.com
- * @LastEditTime: 2024-01-26 08:54:56
+ * @LastEditors: Joshua Eigbe jeigbe@gmail.com
+ * @LastEditTime: 2024-01-27 23:40:40
  * @FilePath: /quicktickets_frontend/src/features/notes/notesApiSlice.js
  * @copyrightText: Copyright (c) Joshua Eigbe. All Rights Reserved.
  * @Description: See Github repo
@@ -22,10 +22,12 @@ const initialState = notesAdapter?.getInitialState();
 export const notesApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getNotes: builder.query({
-      query: () => "/notes",
-      validateStatus: (response, result) => {
-        return response.status === 200 && !result.isError;
-      },
+      query: () => ({
+        url: "/notes",
+        validateStatus: (response, result) => {
+          return response.status === 200 && !result.isError;
+        },
+      }),
       transformResponse: (responseData) => {
         // console.log(responseData);
         // const idField = {responseData.id}
@@ -37,7 +39,7 @@ export const notesApiSlice = apiSlice.injectEndpoints({
         //   loadedNotes = [];
         // }
 
-        let loadedNotes = responseData.map((note) => {
+        let loadedNotes = responseData?.map((note) => {
           note.id = note._id;
           return note;
         });

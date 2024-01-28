@@ -3,7 +3,7 @@
  * @Github: https://github.com/jsh007
  * @Date: 2024-01-11 13:44:04
  * @LastEditors: Joshua Eigbe self@joshuaeigbe.com
- * @LastEditTime: 2024-01-26 09:53:01
+ * @LastEditTime: 2024-01-26 22:49:22
  * @FilePath: /quicktickets_frontend/src/App.jsx
  * @copyrightText: Copyright (c) Joshua Eigbe. All Rights Reserved.
  * @Description: See Github repo
@@ -23,10 +23,10 @@ import NotesList from "./features/notes/NotesList";
 import PersistLogin from "./features/auth/PersistLogin";
 import Prefetch from "./features/auth/Prefetch";
 import Public from "./components/Public";
-import UsersList from "./features/users/UsersList";
-import Welcome from "./features/auth/Welcome";
 import { ROLES } from "./config/roles";
 import RequireAuth from "./features/auth/RequireAuth";
+import UsersList from "./features/users/UsersList";
+import Welcome from "./features/auth/Welcome";
 
 function App() {
   return (
@@ -39,6 +39,9 @@ function App() {
           {/* Protected Routes */}
 
           <Route element={<PersistLogin />}>
+            {/* <Route
+              element={<RequireAuth allowedRoles={[...Object.values(ROLES)]} />}
+            > */}
             <Route
               element={<RequireAuth allowedRoles={[...Object.values(ROLES)]} />}
             >
