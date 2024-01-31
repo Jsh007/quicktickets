@@ -3,7 +3,7 @@
  * @Github: https://github.com/jsh007
  * @Date: 2024-01-11 14:38:19
  * @LastEditors: Joshua Eigbe jeigbe@gmail.com
- * @LastEditTime: 2024-01-28 23:02:10
+ * @LastEditTime: 2024-01-31 13:08:55
  * @FilePath: /quicktickets_frontend/src/components/DashHeader.jsx
  * @copyrightText: Copyright (c) Joshua Eigbe. All Rights Reserved.
  * @Description: See Github repo
@@ -18,6 +18,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { PulseLoader } from "react-spinners";
 import useAuth from "../hooks/useAuth";
 import { useEffect } from "react";
 import { useSendLogoutMutation } from "../features/auth/authApiSlice";
@@ -134,7 +135,7 @@ const DashHeader = () => {
 
   let buttonContent;
   if (isLoading) {
-    buttonContent = <p>Loading Logout...</p>;
+    buttonContent = <PulseLoader color={"#fff"} />;
   } else {
     buttonContent = (
       <>

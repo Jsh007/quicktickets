@@ -3,7 +3,7 @@
  * @Github: https://github.com/jsh007
  * @Date: 2024-01-09 14:25:29
  * @LastEditors: Joshua Eigbe jeigbe@gmail.com
- * @LastEditTime: 2024-01-28 14:23:23
+ * @LastEditTime: 2024-01-31 13:17:06
  * @FilePath: /quicktickets_frontend/src/features/auth/Welcome.jsx
  * @copyrightText: Copyright (c) Joshua Eigbe. All Rights Reserved.
  * @Description: See Github repo
@@ -14,8 +14,10 @@ import useAuth from "../../hooks/useAuth";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import useTitle from "../../hooks/useTitle";
 
 const Welcome = () => {
+  useTitle("TechNotes Dashboard");
   const { username, isAdmin, isManager } = useAuth();
 
   // const navigate = useNavigate();

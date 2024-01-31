@@ -2,8 +2,8 @@
  * @Author: Joshua Eigbe self@joshuaeigbe.com
  * @Github: https://github.com/jsh007
  * @Date: 2024-01-11 13:44:04
- * @LastEditors: Joshua Eigbe self@joshuaeigbe.com
- * @LastEditTime: 2024-01-26 22:49:22
+ * @LastEditors: Joshua Eigbe jeigbe@gmail.com
+ * @LastEditTime: 2024-01-31 13:16:01
  * @FilePath: /quicktickets_frontend/src/App.jsx
  * @copyrightText: Copyright (c) Joshua Eigbe. All Rights Reserved.
  * @Description: See Github repo
@@ -27,8 +27,10 @@ import { ROLES } from "./config/roles";
 import RequireAuth from "./features/auth/RequireAuth";
 import UsersList from "./features/users/UsersList";
 import Welcome from "./features/auth/Welcome";
+import useTitle from "./hooks/useTitle";
 
 function App() {
+  useTitle("Dan D. Repairs");
   return (
     <div className="App">
       <Routes>

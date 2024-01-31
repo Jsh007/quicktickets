@@ -3,14 +3,15 @@ import { Link, useNavigate } from "react-router-dom";
  * @Author: Joshua Eigbe self@joshuaeigbe.com
  * @Github: https://github.com/jsh007
  * @Date: 2024-01-11 14:40:29
- * @LastEditors: Joshua Eigbe self@joshuaeigbe.com
- * @LastEditTime: 2024-01-27 00:11:25
+ * @LastEditors: Joshua Eigbe jeigbe@gmail.com
+ * @LastEditTime: 2024-01-31 13:09:20
  * @FilePath: /quicktickets_frontend/src/features/auth/Login.jsx
  * @copyrightText: Copyright (c) Joshua Eigbe. All Rights Reserved.
  * @Description: See Github repo
  */
 import { useEffect, useRef, useState } from "react";
 
+import { PulseLoader } from "react-spinners";
 import { setCredentials } from "./authSlice";
 import { useDispatch } from "react-redux";
 import { useLoginMutation } from "./authApiSlice";
@@ -66,7 +67,7 @@ const Login = () => {
 
   const errClass = errMsg ? "errmsg" : "offscreen";
 
-  if (isLoading) return <p>Loading..</p>;
+  if (isLoading) return <PulseLoader color={"#fff"} />;
 
   const content = (
     <section className="public">

@@ -3,7 +3,7 @@
  * @Github: https://github.com/jsh007
  * @Date: 2024-01-24 09:54:30
  * @LastEditors: Joshua Eigbe jeigbe@gmail.com
- * @LastEditTime: 2024-01-28 15:15:55
+ * @LastEditTime: 2024-01-31 13:21:08
  * @FilePath: /quicktickets_frontend/src/features/auth/PersistLogin.jsx
  * @copyrightText: Copyright (c) Joshua Eigbe. All Rights Reserved.
  * @Description: See Github repo
@@ -11,6 +11,7 @@
 import { Link, Outlet } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 
+import { PulseLoader } from "react-spinners";
 import { selectCurrentToken } from "./authSlice";
 import usePersist from "../../hooks/usePersist";
 import { useRefreshMutation } from "./authApiSlice";
@@ -27,7 +28,7 @@ const PersistLogin = () => {
     useRefreshMutation();
 
   useEffect(() => {
-    if (effectRan.current === true) {
+    if (effectRan.current === true || process.env.NODE_ENV !== "production") {
       const verifyRefreshToken = async () => {
         console.log("...verifying Refresh Token");
         try {
@@ -53,7 +54,7 @@ const PersistLogin = () => {
   } else if (isLoading) {
     // persist: yes, token: no
     console.log("Loading");
-    content = <p>Loading..</p>;
+    content = <PulseLoader color={"#fff"} />;
   } else if (isError) {
     // persist: yes, token: no
     content = (
