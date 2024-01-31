@@ -3,7 +3,7 @@
  * @Github: https://github.com/jsh007
  * @Date: 2024-01-11 14:28:18
  * @LastEditors: Joshua Eigbe jeigbe@gmail.com
- * @LastEditTime: 2024-01-28 15:40:34
+ * @LastEditTime: 2024-01-31 13:48:22
  * @FilePath: /quicktickets_frontend/src/app/api/apiSlice.js
  * @copyrightText: Copyright (c) Joshua Eigbe. All Rights Reserved.
  * @Description: See Github repo
@@ -13,7 +13,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { setCredentials } from "../../features/auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:3500",
+  baseUrl: "https://quicktickets.onrender.com",
+  // baseUrl: "http://localhost:3500",
   // baseUrl: "http://localhost:4000",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
