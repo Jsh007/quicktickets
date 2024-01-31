@@ -3,7 +3,7 @@
  * @Github: https://github.com/jsh007
  * @Date: 2024-01-11 13:44:04
  * @LastEditors: Joshua Eigbe jeigbe@gmail.com
- * @LastEditTime: 2024-01-31 13:16:01
+ * @LastEditTime: 2024-01-31 13:36:03
  * @FilePath: /quicktickets_frontend/src/App.jsx
  * @copyrightText: Copyright (c) Joshua Eigbe. All Rights Reserved.
  * @Description: See Github repo
@@ -30,7 +30,7 @@ import Welcome from "./features/auth/Welcome";
 import useTitle from "./hooks/useTitle";
 
 function App() {
-  useTitle("Dan D. Repairs");
+  useTitle("Welcome to QuickTickets");
   return (
     <div className="App">
       <Routes>
